@@ -11,7 +11,7 @@ namespace ProductManagement.BL.Validators
     public class CreateUserValidator : AbstractValidator<CreateUserDto>
     {
         /// <summary>
-        /// Business Logic validations for Users.
+        /// Business Logic validations for Add Users.
         /// </summary>
         public CreateUserValidator()
         {
@@ -36,8 +36,16 @@ namespace ProductManagement.BL.Validators
                                             .NotEmpty().WithMessage("La confirmación de contraseña no puede estar vacia.")
                                             .MaximumLength(100).WithMessage("La confirmación de contraseña tiene una longitud máxima de 100 caracteres");
 
+            // Validate email field (example@mail.com)
+            RuleFor(x => x.Email).EmailAddress().WithMessage("Debe usar la nomenclatura usuario@correo.com")
+                                    .NotNull().WithMessage("El e-mail es Requerido.")
+                                    .NotEmpty().WithMessage("El e-mail no puede estar vacio.")
+                                    .MaximumLength(100).WithMessage("El e-mail tiene una longitud máxima de 100 caracteres");
+
+            // Validate telephone field (0000-0000)
             RuleFor(x => x.Telephone).NotNull().WithMessage("El Telefono es Requerido.")
                                     .NotEmpty().WithMessage("El Telefono no puede estar vacio.")
+                                    .MinimumLength(8).WithMessage("El Telefono tiene una longitud minima de 8 caracteres")
                                     .MaximumLength(8).WithMessage("El Telefono tiene una longitud máxima de 8 caracteres");
 
         }
