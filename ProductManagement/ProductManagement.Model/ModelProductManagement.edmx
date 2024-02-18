@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModelProductManagement.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelProductManagementStoreContainer">
+    <EntitySet Name="Products" EntityType="ModelProductManagement.Store.Products" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Options" EntityType="ModelProductManagement.Store.Options" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="ModelProductManagement.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Suppliers" EntityType="ModelProductManagement.Store.Suppliers" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ProductOption" Association="ModelProductManagement.Store.ProductOption">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Option" EntitySet="Options" />
+    </AssociationSet>
+    <AssociationSet Name="SupplierProduct" Association="ModelProductManagement.Store.SupplierProduct">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="UserSupplier" Association="ModelProductManagement.Store.UserSupplier">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Supplier" EntitySet="Suppliers" />
+    </AssociationSet>
+    <AssociationSet Name="UserProduct" Association="ModelProductManagement.Store.UserProduct">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="UserOption" Association="ModelProductManagement.Store.UserOption">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Option" EntitySet="Options" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CodeProduct" Type="nvarchar" Nullable="false" MaxLength="15" />
+    <Property Name="ProductName" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="QuantityStock" Type="decimal" Nullable="false" Precision="9" Scale="2" />
+    <Property Name="ImageProduct" Type="varbinary(max)" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="2" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedUserId" Type="int" Nullable="false" />
+    <Property Name="SupplierId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Options">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OptionName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="2" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedUserId" Type="int" Nullable="false" />
+    <Property Name="ProductId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="15" />
+    <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Telephone" Type="nvarchar" Nullable="false" MaxLength="8" />
+    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="2" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Suppliers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SupplerName" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="2" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedUserId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ProductOption">
+    <End Role="Product" Type="ModelProductManagement.Store.Products" Multiplicity="1" />
+    <End Role="Option" Type="ModelProductManagement.Store.Options" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Option">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SupplierProduct">
+    <End Role="Supplier" Type="ModelProductManagement.Store.Suppliers" Multiplicity="1" />
+    <End Role="Product" Type="ModelProductManagement.Store.Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="SupplierId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserSupplier">
+    <End Role="User" Type="ModelProductManagement.Store.Users" Multiplicity="1" />
+    <End Role="Supplier" Type="ModelProductManagement.Store.Suppliers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Supplier">
+        <PropertyRef Name="CreatedUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserProduct">
+    <End Role="User" Type="ModelProductManagement.Store.Users" Multiplicity="1" />
+    <End Role="Product" Type="ModelProductManagement.Store.Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="CreatedUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserOption">
+    <End Role="User" Type="ModelProductManagement.Store.Users" Multiplicity="1" />
+    <End Role="Option" Type="ModelProductManagement.Store.Options" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Option">
+        <PropertyRef Name="CreatedUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ModelProductManagement" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ModelProductManagementDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Products" EntityType="ModelProductManagement.Product" />
+          <EntitySet Name="Options" EntityType="ModelProductManagement.Option" />
+          <EntitySet Name="Users" EntityType="ModelProductManagement.User" />
+          <EntitySet Name="Suppliers" EntityType="ModelProductManagement.Supplier" />
+          <AssociationSet Name="ProductOption" Association="ModelProductManagement.ProductOption">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Option" EntitySet="Options" />
+          </AssociationSet>
+          <AssociationSet Name="SupplierProduct" Association="ModelProductManagement.SupplierProduct">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="UserSupplier" Association="ModelProductManagement.UserSupplier">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Supplier" EntitySet="Suppliers" />
+          </AssociationSet>
+          <AssociationSet Name="UserProduct" Association="ModelProductManagement.UserProduct">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="UserOption" Association="ModelProductManagement.UserOption">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Option" EntitySet="Options" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodeProduct" Type="String" Nullable="false" MaxLength="15" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="100" />
+          <Property Name="QuantityStock" Type="Decimal" Nullable="false" Precision="9" Scale="2" />
+          <Property Name="ImageProduct" Type="Binary" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="2" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Options" Relationship="ModelProductManagement.ProductOption" FromRole="Product" ToRole="Option" />
+          <NavigationProperty Name="Supplier" Relationship="ModelProductManagement.SupplierProduct" FromRole="Product" ToRole="Supplier" />
+          <NavigationProperty Name="CreatedUser" Relationship="ModelProductManagement.UserProduct" FromRole="Product" ToRole="User" />
+          <Property Name="CreatedUserId" Type="Int32" Nullable="false" />
+          <Property Name="SupplierId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Option">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OptionName" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="2" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="ModelProductManagement.ProductOption" FromRole="Option" ToRole="Product" />
+          <NavigationProperty Name="CreatedUser" Relationship="ModelProductManagement.UserOption" FromRole="Option" ToRole="User" />
+          <Property Name="CreatedUserId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="15" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" />
+          <Property Name="Telephone" Type="String" Nullable="false" MaxLength="8" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="2" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Suppliers" Relationship="ModelProductManagement.UserSupplier" FromRole="User" ToRole="Supplier" />
+          <NavigationProperty Name="Products" Relationship="ModelProductManagement.UserProduct" FromRole="User" ToRole="Product" />
+          <NavigationProperty Name="Options" Relationship="ModelProductManagement.UserOption" FromRole="User" ToRole="Option" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupplerName" Type="String" Nullable="false" MaxLength="100" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="2" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="ModelProductManagement.SupplierProduct" FromRole="Supplier" ToRole="Product" />
+          <NavigationProperty Name="CreatedUser" Relationship="ModelProductManagement.UserSupplier" FromRole="Supplier" ToRole="User" />
+          <Property Name="CreatedUserId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="ProductOption">
+          <End Type="ModelProductManagement.Product" Role="Product" Multiplicity="1" />
+          <End Type="ModelProductManagement.Option" Role="Option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Option">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SupplierProduct">
+          <End Type="ModelProductManagement.Supplier" Role="Supplier" Multiplicity="1" />
+          <End Type="ModelProductManagement.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserSupplier">
+          <End Type="ModelProductManagement.User" Role="User" Multiplicity="1" />
+          <End Type="ModelProductManagement.Supplier" Role="Supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Supplier">
+              <PropertyRef Name="CreatedUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserProduct">
+          <End Type="ModelProductManagement.User" Role="User" Multiplicity="1" />
+          <End Type="ModelProductManagement.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CreatedUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserOption">
+          <End Type="ModelProductManagement.User" Role="User" Multiplicity="1" />
+          <End Type="ModelProductManagement.Option" Role="Option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Option">
+              <PropertyRef Name="CreatedUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelProductManagementStoreContainer" CdmEntityContainer="ModelProductManagementDbContext">
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelProductManagement.Product)">
+        <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CodeProduct" ColumnName="CodeProduct" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="QuantityStock" ColumnName="QuantityStock" />
+          <ScalarProperty Name="ImageProduct" ColumnName="ImageProduct" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedUserId" ColumnName="CreatedUserId" />
+          <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Options">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelProductManagement.Option)">
+        <MappingFragment StoreEntitySet="Options">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="OptionName" ColumnName="OptionName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedUserId" ColumnName="CreatedUserId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelProductManagement.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Suppliers">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelProductManagement.Supplier)">
+        <MappingFragment StoreEntitySet="Suppliers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SupplerName" ColumnName="SupplerName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedUserId" ColumnName="CreatedUserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
