@@ -57,14 +57,13 @@
             // 
             this.groupBox1.Controls.Add(this.cmbSupplier);
             this.groupBox1.Controls.Add(this.btnSave);
+            this.groupBox1.Controls.Add(this.lblImageProduct);
             this.groupBox1.Controls.Add(this.btnLoadImage);
             this.groupBox1.Controls.Add(this.btnCancel);
-            this.groupBox1.Controls.Add(this.pbImgen);
             this.groupBox1.Controls.Add(this.lblSupplier);
             this.groupBox1.Controls.Add(this.lblCreatedUser);
             this.groupBox1.Controls.Add(this.lblCreatedDate);
             this.groupBox1.Controls.Add(this.lblStatus);
-            this.groupBox1.Controls.Add(this.lblImageProduct);
             this.groupBox1.Controls.Add(this.lblQuantityStock);
             this.groupBox1.Controls.Add(this.lblProductName);
             this.groupBox1.Controls.Add(this.lblCode);
@@ -76,15 +75,16 @@
             this.groupBox1.Controls.Add(this.txtCode);
             this.groupBox1.Location = new System.Drawing.Point(12, 21);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(804, 361);
+            this.groupBox1.Size = new System.Drawing.Size(1407, 171);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "PRODUCTO";
             // 
             // cmbSupplier
             // 
+            this.cmbSupplier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSupplier.FormattingEnabled = true;
-            this.cmbSupplier.Location = new System.Drawing.Point(651, 149);
+            this.cmbSupplier.Location = new System.Drawing.Point(1081, 59);
             this.cmbSupplier.Name = "cmbSupplier";
             this.cmbSupplier.Size = new System.Drawing.Size(147, 28);
             this.cmbSupplier.TabIndex = 20;
@@ -92,7 +92,7 @@
             // btnSave
             // 
             this.btnSave.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.btnSave.Location = new System.Drawing.Point(570, 315);
+            this.btnSave.Location = new System.Drawing.Point(1128, 117);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(100, 40);
             this.btnSave.TabIndex = 2;
@@ -102,7 +102,7 @@
             // 
             // btnLoadImage
             // 
-            this.btnLoadImage.Location = new System.Drawing.Point(328, 103);
+            this.btnLoadImage.Location = new System.Drawing.Point(910, 117);
             this.btnLoadImage.Name = "btnLoadImage";
             this.btnLoadImage.Size = new System.Drawing.Size(150, 40);
             this.btnLoadImage.TabIndex = 19;
@@ -112,7 +112,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(698, 315);
+            this.btnCancel.Location = new System.Drawing.Point(1289, 117);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 40);
             this.btnCancel.TabIndex = 1;
@@ -122,16 +122,17 @@
             // 
             // pbImgen
             // 
-            this.pbImgen.Location = new System.Drawing.Point(28, 149);
+            this.pbImgen.Location = new System.Drawing.Point(40, 198);
             this.pbImgen.Name = "pbImgen";
-            this.pbImgen.Size = new System.Drawing.Size(450, 206);
+            this.pbImgen.Size = new System.Drawing.Size(1379, 375);
+            this.pbImgen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pbImgen.TabIndex = 18;
             this.pbImgen.TabStop = false;
             // 
             // lblSupplier
             // 
             this.lblSupplier.AutoSize = true;
-            this.lblSupplier.Location = new System.Drawing.Point(655, 121);
+            this.lblSupplier.Location = new System.Drawing.Point(1085, 31);
             this.lblSupplier.Name = "lblSupplier";
             this.lblSupplier.Size = new System.Drawing.Size(81, 20);
             this.lblSupplier.TabIndex = 16;
@@ -140,7 +141,7 @@
             // lblCreatedUser
             // 
             this.lblCreatedUser.AutoSize = true;
-            this.lblCreatedUser.Location = new System.Drawing.Point(655, 192);
+            this.lblCreatedUser.Location = new System.Drawing.Point(1258, 33);
             this.lblCreatedUser.Name = "lblCreatedUser";
             this.lblCreatedUser.Size = new System.Drawing.Size(131, 20);
             this.lblCreatedUser.TabIndex = 15;
@@ -149,7 +150,7 @@
             // lblCreatedDate
             // 
             this.lblCreatedDate.AutoSize = true;
-            this.lblCreatedDate.Location = new System.Drawing.Point(502, 192);
+            this.lblCreatedDate.Location = new System.Drawing.Point(917, 33);
             this.lblCreatedDate.Name = "lblCreatedDate";
             this.lblCreatedDate.Size = new System.Drawing.Size(143, 20);
             this.lblCreatedDate.TabIndex = 14;
@@ -158,7 +159,7 @@
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(506, 121);
+            this.lblStatus.Location = new System.Drawing.Point(787, 33);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(60, 20);
             this.lblStatus.TabIndex = 13;
@@ -167,7 +168,7 @@
             // lblImageProduct
             // 
             this.lblImageProduct.AutoSize = true;
-            this.lblImageProduct.Location = new System.Drawing.Point(6, 121);
+            this.lblImageProduct.Location = new System.Drawing.Point(24, 137);
             this.lblImageProduct.Name = "lblImageProduct";
             this.lblImageProduct.Size = new System.Drawing.Size(156, 20);
             this.lblImageProduct.TabIndex = 12;
@@ -202,7 +203,7 @@
             // 
             // txtCreatedUser
             // 
-            this.txtCreatedUser.Location = new System.Drawing.Point(655, 220);
+            this.txtCreatedUser.Location = new System.Drawing.Point(1258, 61);
             this.txtCreatedUser.Name = "txtCreatedUser";
             this.txtCreatedUser.ReadOnly = true;
             this.txtCreatedUser.Size = new System.Drawing.Size(100, 26);
@@ -210,7 +211,7 @@
             // 
             // txtCreatedDate
             // 
-            this.txtCreatedDate.Location = new System.Drawing.Point(502, 220);
+            this.txtCreatedDate.Location = new System.Drawing.Point(917, 61);
             this.txtCreatedDate.Name = "txtCreatedDate";
             this.txtCreatedDate.ReadOnly = true;
             this.txtCreatedDate.Size = new System.Drawing.Size(100, 26);
@@ -218,7 +219,7 @@
             // 
             // txtStatus
             // 
-            this.txtStatus.Location = new System.Drawing.Point(506, 149);
+            this.txtStatus.Location = new System.Drawing.Point(787, 61);
             this.txtStatus.Name = "txtStatus";
             this.txtStatus.ReadOnly = true;
             this.txtStatus.Size = new System.Drawing.Size(100, 26);
@@ -254,15 +255,18 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(828, 394);
+            this.ClientSize = new System.Drawing.Size(1624, 596);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.pbImgen);
             this.Name = "FrmCreateOrUpdateProduct";
             this.Text = "PRODUCTO";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FrmCreateOrUpdateProduct_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbImgen)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

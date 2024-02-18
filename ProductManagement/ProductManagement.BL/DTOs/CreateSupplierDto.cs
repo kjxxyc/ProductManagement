@@ -8,7 +8,7 @@ namespace ProductManagement.BL.DTOs
 {
     public class CreateSupplierDto
     {
-        public string SupplerName { get; set; }
+        public string SupplierName { get; set; }
 
         public string Status { get; set; }
 

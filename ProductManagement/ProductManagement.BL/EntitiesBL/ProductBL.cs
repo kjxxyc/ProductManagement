@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using ProductManagement.BL.DTOs;
 using ProductManagement.BL.InterfacesBL;
 using ProductManagement.BL.Utilities;
@@ -74,7 +75,7 @@ namespace ProductManagement.BL.EntitiesBL
 
             // Find user by Id.
             var userModel = _productDAO.FindById(entityId);
-            var userDto = _mapper.Map<ReadProductDto>(userModel);
+            var productDto = _mapper.Map<ReadProductDto>(userModel);
 
             // Validate if the record exists
             if (userModel == null)
@@ -87,7 +88,7 @@ namespace ProductManagement.BL.EntitiesBL
             {
                 result.Message = "Usuario encontrado.";
                 result.Success = true;
-                result.Result = userDto;
+                result.Result = productDto;
             }
 
             return result;
@@ -95,7 +96,33 @@ namespace ProductManagement.BL.EntitiesBL
 
         public OperationResultDto Update(UpdateProductDto updateDto)
         {
-            throw new NotImplementedException();
+            // Definition of variables.
+            var result = new OperationResultDto();
+            var affectedRows = 0;
+            var errorMessage = ValidateBeforeUpdate(updateDto);
+
+            // Validate DTO
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                // Map DTO to model
+
+                var productModel = _productDAO.FindById(updateDto.Id);
+                _mapper.Map(updateDto, productModel);
+                affectedRows = _productDAO.Update(productModel);
+
+                var productDto = _mapper.Map<ReadProductDto>(productModel);
+
+                result.Message = affectedRows > 0 ? "Actualizado con Exito." : "No se afectaron registros.";
+                result.Success = affectedRows > 0;
+                result.Result = productDto;
+            }
+            else
+            {
+                result.Message = errorMessage;
+                result.Success = false;
+            }
+
+            return result;
         }
 
 
@@ -138,7 +165,22 @@ namespace ProductManagement.BL.EntitiesBL
 
         public string ValidateBeforeUpdate(UpdateProductDto updateDto)
         {
-            throw new NotImplementedException();
+            // Definition of variables.
+            var errorMessage = string.Empty;
+
+            // Implementation of validations
+            var validator = new UpdateProductValidator();
+
+            var validationResult = validator.Validate(updateDto);
+
+            // Validation DTO
+            if (!validationResult.IsValid)
+            {
+                errorMessage = validationResult.ToString("\n");
+                return errorMessage;
+            }
+
+            return errorMessage;
         }
 
         public OperationResultDto GetListProductsWithFilter(string filterName, string filterStatus)

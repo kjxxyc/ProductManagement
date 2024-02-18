@@ -90,6 +90,7 @@
     <Compile Include="Validators\CreateProductValidator.cs" />
     <Compile Include="Validators\CreateSupplierValidator.cs" />
     <Compile Include="Validators\CreateUserValidator.cs" />
+    <Compile Include="Validators\UpdateProductValidator.cs" />
     <Compile Include="Validators\UpdateUserValidator.cs" />
   </ItemGroup>
   <ItemGroup />

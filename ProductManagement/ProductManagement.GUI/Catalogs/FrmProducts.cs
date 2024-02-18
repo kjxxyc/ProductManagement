@@ -70,10 +70,11 @@ namespace ProductManagement.GUI.Catalogs
 
         private void btnCreateProduct_Click(object sender, EventArgs e)
         {
-            // Call to the user registration screen.
+            // Call create product.
             FrmCreateOrUpdateProduct frmCreateOrUpdateProduct = new FrmCreateOrUpdateProduct();
 
             frmCreateOrUpdateProduct.ShowDialog();
+            
         }
 
         private void btnStatusAC_Click(object sender, EventArgs e)
@@ -107,6 +108,28 @@ namespace ProductManagement.GUI.Catalogs
             else
             {
                 MessageBox.Show(result.Message, "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnUpdateProduct_Click(object sender, EventArgs e)
+        {
+            var selectedRow = dgvProducts.SelectedRows.Cast<DataGridViewRow>().FirstOrDefault();
+            //var currentIndex = selectedRow.Index;
+
+            if (selectedRow != null)
+            {
+                int id = (int)selectedRow.Cells["Id"].Value;
+                var product = productBL.FindById(id);
+
+                if (product != null)
+                {
+                    var frm = new FrmCreateOrUpdateProduct(id);
+                    frm.ShowDialog(owner: this);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Debe haber un registro seleccionado.", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

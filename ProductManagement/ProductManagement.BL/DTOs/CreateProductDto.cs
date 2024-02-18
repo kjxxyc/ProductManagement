@@ -8,6 +8,12 @@ namespace ProductManagement.BL.DTOs
 {
     public class CreateProductDto
     {
+        
+        public CreateProductDto()
+        {
+            Options = new List<CreateOptionDto>();
+        }
+
         public string CodeProduct { get; set; }
 
         public string ProductName { get; set; }
@@ -23,6 +29,8 @@ namespace ProductManagement.BL.DTOs
         public int CreatedUserId { get; set; }
 
         public int SupplierId { get; set; }
+
+        public List<CreateOptionDto> Options { get; set; }
 
     }
 }

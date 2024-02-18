@@ -33,6 +33,8 @@ namespace ProductManagement.BL.Utilities
                 cfg.CreateMap<CreateProductDto, Product>().ForMember(dest => dest.CreatedDate,
                                                                       opt => opt.MapFrom(src => DateTime.Now));
 
+                cfg.CreateMap<UpdateProductDto, Product>();
+
                 cfg.CreateMap<Product, ReadProductDto>().ForMember(dest => dest.Status,
                                                                     opt => opt.MapFrom(src => src.Status == "AC" ? "Activo" : "Inactivo"));
 

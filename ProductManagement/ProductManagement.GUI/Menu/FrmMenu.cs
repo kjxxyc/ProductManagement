@@ -37,5 +37,13 @@ namespace ProductManagement.GUI.Menu
             frm.MdiParent = this;
             frm.Show();
         }
+
+        private void usuariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Call to the user registration screen.
+            FrmCreateOrUpdateUser frmCreateOrUpdateUser = new FrmCreateOrUpdateUser();
+
+            frmCreateOrUpdateUser.ShowDialog();
+        }
     }
 }

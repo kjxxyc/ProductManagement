@@ -21,7 +21,7 @@ namespace ProductManagement.Model
         }
     
         public int Id { get; set; }
-        public string SupplerName { get; set; }
+        public string SupplierName { get; set; }
         public string Status { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public int CreatedUserId { get; set; }

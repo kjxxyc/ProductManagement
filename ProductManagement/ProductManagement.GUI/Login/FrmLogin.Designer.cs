@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnExit = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
             this.btnRegister = new System.Windows.Forms.Button();
             this.txtUserName = new System.Windows.Forms.TextBox();
@@ -39,20 +38,10 @@
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnExit
-            // 
-            this.btnExit.Location = new System.Drawing.Point(277, 212);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(100, 40);
-            this.btnExit.TabIndex = 4;
-            this.btnExit.Text = "Salir";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
             // btnLogin
             // 
             this.btnLogin.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.btnLogin.Location = new System.Drawing.Point(277, 112);
+            this.btnLogin.Location = new System.Drawing.Point(277, 173);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(100, 40);
             this.btnLogin.TabIndex = 2;
@@ -62,7 +51,7 @@
             // 
             // btnRegister
             // 
-            this.btnRegister.Location = new System.Drawing.Point(277, 21);
+            this.btnRegister.Location = new System.Drawing.Point(277, 88);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(100, 40);
             this.btnRegister.TabIndex = 3;
@@ -124,7 +113,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnRegister);
             this.Controls.Add(this.btnLogin);
-            this.Controls.Add(this.btnExit);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmLogin";
@@ -138,8 +127,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Button btnRegister;
         private System.Windows.Forms.TextBox txtUserName;

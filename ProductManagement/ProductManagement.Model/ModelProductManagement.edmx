@@ -75,7 +75,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="SupplerName" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="SupplierName" Type="nvarchar" Nullable="false" MaxLength="100" />
     <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="2" />
     <Property Name="CreatedDate" Type="datetime" Nullable="false" />
     <Property Name="CreatedUserId" Type="int" Nullable="false" />
@@ -222,7 +222,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SupplerName" Type="String" Nullable="false" MaxLength="100" />
+          <Property Name="SupplierName" Type="String" Nullable="false" MaxLength="100" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="2" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="Products" Relationship="ModelProductManagement.SupplierProduct" FromRole="Supplier" ToRole="Product" />
@@ -341,7 +341,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(ModelProductManagement.Supplier)">
         <MappingFragment StoreEntitySet="Suppliers">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="SupplerName" ColumnName="SupplerName" />
+          <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="CreatedUserId" ColumnName="CreatedUserId" />

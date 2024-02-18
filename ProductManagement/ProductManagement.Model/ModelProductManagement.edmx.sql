@@ -62,7 +62,7 @@ GO
 -- Creating table 'Suppliers'
 CREATE TABLE [dbo].[Suppliers] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [SupplerName] nvarchar(100)  NOT NULL,
+    [SupplierName] nvarchar(100)  NOT NULL,
     [Status] nvarchar(2)  NOT NULL,
     [CreatedDate] datetime  NOT NULL,
     [CreatedUserId] int  NOT NULL

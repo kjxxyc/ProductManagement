@@ -15,7 +15,7 @@ namespace ProductManagement.BL.Validators
         /// </summary>
         public CreateSupplierValidator() 
         {
-            RuleFor(x => x.SupplerName).NotNull().WithMessage("El Nombre del Proveedor es Requerido.")
+            RuleFor(x => x.SupplierName).NotNull().WithMessage("El Nombre del Proveedor es Requerido.")
                                        .NotEmpty().WithMessage("El Nombre del Proveedor no puede estar vacio.")
                                        .MaximumLength(100).WithMessage("El Nombre del Proveedor tiene una longitud máxima de 100 caracteres.");
         }

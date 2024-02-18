@@ -98,9 +98,8 @@ namespace ProductManagement.GUI.Catalogs
             // Clean Form.
             txtCode.Text = readProductDto.CodeProduct;
             txtProductName.Text = readProductDto.ProductName;
-            txtQuantityStock.Text = readProductDto.ProductName;
+            txtQuantityStock.Text = readProductDto.QuantityStock.ToString();
             pbImgen.Image = ConvertByteArrayToImage(readProductDto.ImageProduct);
-            //txtSupplier.Text = readProductDto.SupplierId.ToString();
             txtStatus.Text = readProductDto.Status;
         }
 
@@ -214,7 +213,7 @@ namespace ProductManagement.GUI.Catalogs
             
             updateProductDto.Id = readProductDto.Id;
             updateProductDto.ProductName = txtProductName.Text;
-            updateProductDto.QuantityStock = int.Parse(txtQuantityStock.Text);
+            updateProductDto.QuantityStock = decimal.Parse(txtQuantityStock.Text);
             updateProductDto.ImageProduct = ConvertImageToByteArray(pbImgen.Image);
 
             // Implementation Business Logic.

@@ -180,7 +180,7 @@
             // btnSave
             // 
             this.btnSave.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.btnSave.Location = new System.Drawing.Point(531, 329);
+            this.btnSave.Location = new System.Drawing.Point(534, 329);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(123, 44);
             this.btnSave.TabIndex = 16;
