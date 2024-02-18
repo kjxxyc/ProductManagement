@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace ProductManagement.BL.DTOs
 {
-    public class UpdateProductDto
+    public class ReadSupplierDto
     {
         public int Id { get; set; }
-        public string ProductName { get; set; }
-        public decimal QuantityStock { get; set; }
-        public byte[] ImageProduct { get; set; }
+
+        public string SupplierName { get; set; }
     }
 }

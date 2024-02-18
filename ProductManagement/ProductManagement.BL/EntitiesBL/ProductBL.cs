@@ -46,10 +46,12 @@ namespace ProductManagement.BL.EntitiesBL
                 // Map DTO to model
                 var productModel = _mapper.Map<Product>(createDto);
                 affectedRows = _productDAO.Create(productModel);
+                affectedRows = _productDAO.Create(productModel);
+                var readProduct = _mapper.Map<ReadProductDto>(productModel);
 
                 result.Message = affectedRows > 0 ? "Creado con Exito." : "No se afectaron registros.";
                 result.Success = affectedRows > 0;
-                result.Result = productModel;
+                result.Result = readProduct;
             }
             else
             {
@@ -67,7 +69,28 @@ namespace ProductManagement.BL.EntitiesBL
 
         public OperationResultDto FindById(int entityId)
         {
-            throw new NotImplementedException();
+            // Definition of variables.
+            var result = new OperationResultDto();
+
+            // Find user by Id.
+            var userModel = _productDAO.FindById(entityId);
+            var userDto = _mapper.Map<ReadProductDto>(userModel);
+
+            // Validate if the record exists
+            if (userModel == null)
+            {
+                result.Message = "No se encontraron registros.";
+                result.Success = false;
+                result.Result = null;
+            }
+            else
+            {
+                result.Message = "Usuario encontrado.";
+                result.Success = true;
+                result.Result = userDto;
+            }
+
+            return result;
         }
 
         public OperationResultDto Update(UpdateProductDto updateDto)
@@ -116,6 +139,32 @@ namespace ProductManagement.BL.EntitiesBL
         public string ValidateBeforeUpdate(UpdateProductDto updateDto)
         {
             throw new NotImplementedException();
+        }
+
+        public OperationResultDto GetListProductsWithFilter(string filterName, string filterStatus)
+        {
+            var result = new OperationResultDto();
+
+            var productModel = _productDAO.GetListWithFilter(x =>
+                                (string.IsNullOrEmpty(filterName) || x.ProductName.Contains(filterName)) &&
+                                (string.IsNullOrEmpty(filterStatus) || x.Status == filterStatus));
+
+            var productDto = _mapper.Map<List<ReadProductDto>>(productModel);
+
+            if (productDto.Count == 0)
+            {
+                result.Message = "No se encontraron registros.";
+                result.Success = false;
+                result.Result = null;
+
+                return result;
+            }
+
+            result.Message = "Registros encontrados.";
+            result.Success = true;
+            result.Result = productDto;
+
+            return result;
         }
     }
 }

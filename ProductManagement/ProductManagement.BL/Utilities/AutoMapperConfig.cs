@@ -33,9 +33,14 @@ namespace ProductManagement.BL.Utilities
                 cfg.CreateMap<CreateProductDto, Product>().ForMember(dest => dest.CreatedDate,
                                                                       opt => opt.MapFrom(src => DateTime.Now));
 
+                cfg.CreateMap<Product, ReadProductDto>().ForMember(dest => dest.Status,
+                                                                    opt => opt.MapFrom(src => src.Status == "AC" ? "Activo" : "Inactivo"));
+
                 // Automatapper configuration for the create SUPPLIER.
                 cfg.CreateMap<CreateSupplierDto, Supplier>().ForMember(dest => dest.CreatedDate,
                                                                         opt => opt.MapFrom(src => DateTime.Now));
+
+                cfg.CreateMap<Supplier, ReadSupplierDto>();
             });
 
             return config.CreateMapper();

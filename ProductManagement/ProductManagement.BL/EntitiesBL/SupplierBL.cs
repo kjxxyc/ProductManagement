@@ -81,5 +81,29 @@ namespace ProductManagement.BL.EntitiesBL
         {
             throw new NotImplementedException();
         }
+
+        public OperationResultDto GetListSupplier()
+        {
+            var result = new OperationResultDto();
+
+            var supplierModel = _supplierDAO.GetAll();
+
+            var supplierDto = _mapper.Map<List<ReadSupplierDto>>(supplierModel);
+
+            if (supplierDto.Count == 0)
+            {
+                result.Message = "No se encontraron registros.";
+                result.Success = false;
+                result.Result = null;
+
+                return result;
+            }
+
+            result.Message = "Registros encontrados.";
+            result.Success = true;
+            result.Result = supplierDto;
+
+            return result;
+        }
     }
 }

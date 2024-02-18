@@ -44,7 +44,7 @@
             this.btnExit.Location = new System.Drawing.Point(277, 212);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(100, 40);
-            this.btnExit.TabIndex = 0;
+            this.btnExit.TabIndex = 4;
             this.btnExit.Text = "Salir";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
@@ -55,7 +55,7 @@
             this.btnLogin.Location = new System.Drawing.Point(277, 112);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(100, 40);
-            this.btnLogin.TabIndex = 1;
+            this.btnLogin.TabIndex = 2;
             this.btnLogin.Text = "Acceder";
             this.btnLogin.UseVisualStyleBackColor = false;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
@@ -65,7 +65,7 @@
             this.btnRegister.Location = new System.Drawing.Point(277, 21);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(100, 40);
-            this.btnRegister.TabIndex = 2;
+            this.btnRegister.TabIndex = 3;
             this.btnRegister.Text = "Registrarse";
             this.btnRegister.UseVisualStyleBackColor = true;
             this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
@@ -75,7 +75,7 @@
             this.txtUserName.Location = new System.Drawing.Point(40, 100);
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(150, 26);
-            this.txtUserName.TabIndex = 3;
+            this.txtUserName.TabIndex = 0;
             // 
             // txtPassword
             // 
@@ -83,7 +83,7 @@
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(150, 26);
-            this.txtPassword.TabIndex = 4;
+            this.txtPassword.TabIndex = 1;
             // 
             // lblUserName
             // 
@@ -125,9 +125,12 @@
             this.Controls.Add(this.btnRegister);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.btnExit);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FrmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "INICIAR SESIÓN";
+            this.Load += new System.EventHandler(this.FrmLogin_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

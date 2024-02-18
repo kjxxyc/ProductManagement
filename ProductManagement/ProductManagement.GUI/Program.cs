@@ -1,4 +1,5 @@
 ﻿using ProductManagement.GUI.Catalogs;
+using ProductManagement.GUI.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace ProductManagement.GUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Login.FrmLogin());
+            Application.Run(new FrmMenu());
         }
     }
 }

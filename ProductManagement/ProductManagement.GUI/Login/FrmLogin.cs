@@ -1,5 +1,6 @@
 ﻿using ProductManagement.BL.EntitiesBL;
 using ProductManagement.GUI.Catalogs;
+using ProductManagement.GUI.Menu;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,10 +18,13 @@ namespace ProductManagement.GUI.Login
         // Instances
         private readonly UserBL userBL;
 
+        FrmMenu frmMenu = new FrmMenu();
+
         public FrmLogin()
         {
             InitializeComponent();
             userBL = new UserBL();
+            frmMenu = new FrmMenu();
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
@@ -48,8 +52,13 @@ namespace ProductManagement.GUI.Login
             }
             else
             {
-                MessageBox.Show(result.Message, "Credenciales", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
             }
+            
+        }
+
+        private void FrmLogin_Load(object sender, EventArgs e)
+        {
             
         }
     }

@@ -24,6 +24,10 @@ namespace ProductManagement.BL.Validators
                                         .NotEmpty().WithMessage("El Nombre del producto no puede estar vacio.")
                                         .MaximumLength(100).WithMessage("El Nombre del producto tiene una longitud máxima de 100 caracteres.");
 
+
+            RuleFor(x => x.ImageProduct).NotNull().WithMessage("La Imagen es Requerida")
+                                         .NotEmpty().WithMessage("La Imagen no puede estar vacio.");
+
             RuleFor(x => x.QuantityStock).NotNull().WithMessage("La Existencia es Requerida")
                                          .NotEmpty().WithMessage("La Existencia no puede estar vacio.")
                                          .PrecisionScale(9, 2, false).WithMessage("La Existencia debe cumplir el formato (00.00) con dos decimales");

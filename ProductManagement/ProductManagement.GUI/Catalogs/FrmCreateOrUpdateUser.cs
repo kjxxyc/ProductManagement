@@ -61,7 +61,6 @@ namespace ProductManagement.GUI.Catalogs
             }
  
             txtCreatedDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
-
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
