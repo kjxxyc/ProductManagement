@@ -12,51 +12,59 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using static System.Net.WebRequestMethods;
 
 namespace ProductManagement.GUI.Catalogs
 {
     public partial class FrmCreateOrUpdateProduct : Form
     {
-        private readonly ProductBL productBL;
+        #region private Fields
 
-        private readonly SupplierBL supplierBL;
+        private readonly ProductBL _productBL;
 
-        private ReadProductDto readProductDto = new ReadProductDto();
+        private readonly SupplierBL _supplierBL;
 
-        private ReadSupplierDto readSupplierDto = new ReadSupplierDto();
+        private ReadProductDto _readProductDto;
 
-        private List<ReadSupplierDto> ListSupplierDto = new List<ReadSupplierDto>();
+        private List<ReadSupplierDto> _listSupplierDto;
+
+        private List<ReadOptionDto> _readProductOptions;
+
+        #endregion
+
+
+        #region Form Constructors
 
         public FrmCreateOrUpdateProduct()
         {
             InitializeComponent();
-            productBL = new ProductBL();
-            supplierBL = new SupplierBL();
-            readProductDto.Id = 0;
+
+            _productBL = new ProductBL();
+            _supplierBL = new SupplierBL();
+            _readProductDto = new ReadProductDto();
+            _listSupplierDto = new List<ReadSupplierDto>();
+            _readProductOptions = new List<ReadOptionDto>();
         }
 
         public FrmCreateOrUpdateProduct(int productId)
         {
             InitializeComponent();
-            productBL = new ProductBL();
-            supplierBL = new SupplierBL();
-            readProductDto.Id = productId;
+
+            _productBL = new ProductBL();
+            _supplierBL = new SupplierBL();
+
+            _readProductDto = new ReadProductDto();
+            _readProductDto.Id = productId;
+
+            _listSupplierDto = new List<ReadSupplierDto>();
+            _readProductOptions = new List<ReadOptionDto>();
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            if (readProductDto.Id > 0)
-            {
-                // Modify Product
-                UpdateProduct();
-            }
-            else
-            {
-                // Add Product
-                CreateProduct();
-            }
-            
-        }
+
+        #endregion
+
+
+        #region Control Events
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -65,9 +73,9 @@ namespace ProductManagement.GUI.Catalogs
 
         private void FrmCreateOrUpdateProduct_Load(object sender, EventArgs e)
         {
-            if (readProductDto.Id > 0)
+            if (_readProductDto != null && _readProductDto.Id > 0)
             {
-                LoadProduct(readProductDto.Id);
+                LoadProduct(_readProductDto.Id);
                 EnableOrDisableControls();
             }
 
@@ -75,16 +83,247 @@ namespace ProductManagement.GUI.Catalogs
             LoadSuppliers();
         }
 
+        private void btnLoadImage_Click(object sender, EventArgs e)
+        {
+            openFileDialogImage.Filter = "Achivos de Imagen | *.png; *.jpg; *.jpeg";
+
+            try
+            {
+                if (openFileDialogImage.ShowDialog() == DialogResult.OK)
+                {
+                    string route = openFileDialogImage.FileName;
+                    pbImgen.Image = Image.FromFile(openFileDialogImage.FileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnAddOption_Click(object sender, EventArgs e)
+        {
+            using (var frmAddOption = new FrmCreateOrUpdateOption())
+            {
+                frmAddOption.ShowDialog(this);
+                var createOrUpdateOption = frmAddOption.GetProductOption(); //Obtener la Opcion luego de cerrado el formulario..
+
+                //TODO: Validar Opción antes de agregarla...
+
+                if (createOrUpdateOption != null)
+                {
+                    //Add Option to our internal list...
+                    var readOption = new ReadOptionDto()
+                    {
+                        Id = createOrUpdateOption.Id,
+                        OptionName = createOrUpdateOption.OptionName,
+                        Status = createOrUpdateOption.Status,
+                        ProductId = createOrUpdateOption.ProductId,
+                        CreatedDate = createOrUpdateOption.CreatedDate.ToString("dd/MM/yyyy - hh:mm:ss tt"),
+                        CreatedUserId = createOrUpdateOption.CreatedUserId,
+                        CreatedUserName = "-"
+                    };
+
+                    _readProductOptions.Add(readOption);
+
+
+                    //Also add Option to grid to show it graphically to the user...
+                    dgvOptions.Rows.Add(createOrUpdateOption.Id,
+                                        createOrUpdateOption.OptionName,
+                                        createOrUpdateOption.Status,
+                                        createOrUpdateOption.CreatedDate,
+                                        createOrUpdateOption.CreatedUserId,
+                                        createOrUpdateOption.ProductId);
+
+                    //Resize grid to adjust to new rows content...
+                    dgvOptions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dgvOptions.AutoResizeColumns();
+                }
+            }
+        }
+
+        private void btnEditOption_Click(object sender, EventArgs e)
+        {
+            if (dgvOptions.RowCount > 0)
+            {
+                var optionId = Convert.ToInt32(dgvOptions.CurrentRow.Cells["dgvTxtOptionId"].Value);
+                var selectedRow = dgvOptions.CurrentRow;
+
+                using (var frmAddOption = new FrmCreateOrUpdateOption(optionId))
+                {
+                    frmAddOption.ShowDialog(this);
+                    var createOrUpdateOption = frmAddOption.GetProductOption(); //Obtener la Opcion luego de cerrado el formulario..
+
+                    if (createOrUpdateOption != null)
+                    {
+                        //Add Option to our internal list...
+                        var readOption = new ReadOptionDto()
+                        {
+                            Id = createOrUpdateOption.Id,
+                            OptionName = createOrUpdateOption.OptionName,
+                            Status = createOrUpdateOption.Status,
+                            ProductId = createOrUpdateOption.ProductId,
+                            CreatedDate = createOrUpdateOption.CreatedDate.ToString("dd/MM/yyyy - hh:mm:ss tt"),
+                            CreatedUserId = createOrUpdateOption.CreatedUserId,
+                            CreatedUserName = "-"
+                        };
+
+                        _readProductOptions.Add(readOption);
+
+                        //Also Update Option to grid to show it graphically to the user...
+                        selectedRow.Cells[0].Value = createOrUpdateOption.Id;
+                        selectedRow.Cells[1].Value = createOrUpdateOption.OptionName;
+                        selectedRow.Cells[2].Value = createOrUpdateOption.Status;
+                        selectedRow.Cells[3].Value = createOrUpdateOption.CreatedDate;
+                        selectedRow.Cells[4].Value = createOrUpdateOption.CreatedUserId;
+                        selectedRow.Cells[5].Value = createOrUpdateOption.ProductId;
+
+                        //Resize grid to adjust to new rows content...
+                        dgvOptions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                        dgvOptions.AutoResizeColumns();
+                    }
+                }
+            }
+        }
+
+        private void btnDeleteOption_Click(object sender, EventArgs e)
+        {
+            if (dgvOptions.RowCount > 0)
+            {
+                var optionId = Convert.ToInt32(dgvOptions.CurrentRow.Cells["dgvTxtOptionId"].Value);
+                var readOption = _readProductOptions.FirstOrDefault(x => x.Id == optionId);    
+                var selectedRow = dgvOptions.CurrentRow;
+
+                //Remove option from list...
+                _readProductOptions.Remove(readOption);
+
+                //Remove options from grid...
+                dgvOptions.Rows.Remove(selectedRow);        
+
+                //Resize grid to adjust to new rows content...
+                dgvOptions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dgvOptions.AutoResizeColumns();
+            }
+        }
+
+        private void btnSaveProduct_Click(object sender, EventArgs e)
+        {
+            if (_readProductDto.Id > 0) //An update...
+            {
+                UpdateProduct();
+            }
+            else //A create...
+            {
+                CreateProduct();
+            }
+        }
+
+
+        #endregion
+
+
+        #region Private Functions
+
+        private void CreateProduct()
+        {
+            // Assignment.
+            var createProductDto = new CreateProductDto();
+            createProductDto.CodeProduct = txtCode.Text;
+            createProductDto.ProductName = txtProductName.Text;
+            createProductDto.QuantityStock = Decimal.Parse(txtQuantityStock.Text);
+            createProductDto.ImageProduct = ConvertImageToByteArray(pbImgen.Image);
+            createProductDto.SupplierId = (int)cmbSupplier.SelectedValue;
+            createProductDto.CreatedUserId = 1;
+            createProductDto.Status = "AC";
+            createProductDto.CreatedDate = DateTime.Now;
+
+            //Add Product Options...
+            createProductDto.Options = GetCreateOrUpdateOptionsList();
+
+            // Implementation Business Logic.
+            var result = _productBL.Create(createProductDto);
+
+            // Evaluation of the result.
+            if (result.Success)
+            {
+                MessageBox.Show(result.Message, "Guardar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Clean Form.
+                CleanControls();
+
+                // Assignment to load the record
+                _readProductDto = result.Result as ReadProductDto;
+
+                // Reload the registry.
+                LoadProduct(_readProductDto.Id);
+                EnableOrDisableControls();
+            }
+            else
+            {
+                MessageBox.Show(result.Message, "Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void UpdateProduct()
+        {
+            // Assignment.
+            var updateProductDto = new UpdateProductDto();
+
+            updateProductDto.Id = _readProductDto.Id;
+            updateProductDto.ProductName = txtProductName.Text;
+            updateProductDto.QuantityStock = decimal.Parse(txtQuantityStock.Text);
+            updateProductDto.ImageProduct = ConvertImageToByteArray(pbImgen.Image);
+
+            //Add Product Options...
+            updateProductDto.Options = GetCreateOrUpdateOptionsList();
+
+            // Implementation Business Logic.
+            var result = _productBL.Update(updateProductDto);
+
+            // Evaluation of the result.
+            if (result.Success)
+            {
+                MessageBox.Show(result.Message, "Guardar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Clean Form.
+                CleanControls();
+                _readProductDto = result.Result as ReadProductDto;
+                LoadProduct(_readProductDto.Id);
+            }
+            else
+            {
+                MessageBox.Show(result.Message, "Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadSuppliers()
+        {
+            _listSupplierDto = new List<ReadSupplierDto>();
+
+            var result = _supplierBL.GetListSupplier();
+
+            _listSupplierDto = result.Result as List<ReadSupplierDto>;
+
+            if (result.Success)
+            {
+                _listSupplierDto.ForEach(x => x.SupplierName = x.Id + " | " + x.SupplierName);
+                cmbSupplier.DataSource = _listSupplierDto;
+                cmbSupplier.DisplayMember = "SupplierName";
+                cmbSupplier.ValueMember = "Id";
+            }
+        }
+
         private void LoadProduct(int productId)
         {
             if (productId > 0)
             {
-                var result = productBL.FindById(productId);
+                var result = _productBL.FindById(productId);
 
                 if (result.Success)
                 {
-                    readProductDto = result.Result as ReadProductDto;
-                    SetProperties(readProductDto);
+                    _readProductDto = result.Result as ReadProductDto;
+                    _readProductOptions = _readProductDto.Options;
+                    SetProperties(_readProductDto);
                 }
                 else
                 {
@@ -101,11 +340,14 @@ namespace ProductManagement.GUI.Catalogs
             txtQuantityStock.Text = readProductDto.QuantityStock.ToString();
             pbImgen.Image = ConvertByteArrayToImage(readProductDto.ImageProduct);
             txtStatus.Text = readProductDto.Status;
+
+            //Load options to grid...
+            LoadOptionsToGrid();
         }
 
         private void EnableOrDisableControls()
         {
-            if (readProductDto.Id > 0)
+            if (_readProductDto.Id > 0)
             {
                 txtCode.Enabled = false;
             }
@@ -126,63 +368,28 @@ namespace ProductManagement.GUI.Catalogs
             txtStatus.Text = string.Empty;
         }
 
-        private void CreateProduct()
+        private List<CreateOrUpdateOptionDto> GetCreateOrUpdateOptionsList()
         {
-            // Assignment.
-            var createProductDto = new CreateProductDto();
+            var listResult = new List<CreateOrUpdateOptionDto>();
 
-            createProductDto.CodeProduct = txtCode.Text;
-            createProductDto.ProductName = txtProductName.Text;
-            createProductDto.QuantityStock = Decimal.Parse(txtQuantityStock.Text);
-            createProductDto.ImageProduct = ConvertImageToByteArray(pbImgen.Image); 
-            createProductDto.SupplierId = (int)cmbSupplier.SelectedValue;
-            createProductDto.CreatedUserId = 1;
-            createProductDto.Status = "AC";
-            createProductDto.CreatedDate = DateTime.Now;
-                        
-
-            // Implementation Business Logic.
-            var result = productBL.Create(createProductDto);
-
-            // Evaluation of the result.
-            if (result.Success)
+            foreach (var readOption in _readProductOptions)
             {
-                MessageBox.Show(result.Message, "Guardar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //Add Option to our internal list...
+                var createUptateOption = new CreateOrUpdateOptionDto()
+                {
+                    Id = readOption.Id,
+                    OptionName = readOption.OptionName,
+                    Status = readOption.Status,
+                    ProductId = readOption.ProductId,
+                    CreatedUserId = readOption.CreatedUserId,
+                };
 
-                // Clean Form.
-                CleanControls();
-
-                // Assignment to load the record
-                readProductDto = result.Result as ReadProductDto;
-
-                // Reload the registry.
-                LoadProduct(readProductDto.Id);
-                EnableOrDisableControls();
+                listResult.Add(createUptateOption);
             }
-            else
-            {
-                MessageBox.Show(result.Message, "Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+
+            return listResult;
         }
 
-        private void btnLoadImage_Click(object sender, EventArgs e)
-        {
-            openFileDialogImage.Filter = "Achivos de Imagen | *.png; *.jpg; *.jpeg";
-
-            try
-            {
-                if(openFileDialogImage.ShowDialog() == DialogResult.OK) 
-                { 
-                    string route = openFileDialogImage.FileName;
-                    pbImgen.Image = Image.FromFile(openFileDialogImage.FileName);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-               
         private byte[] ConvertImageToByteArray(Image image)
         {
             if (image == null)
@@ -205,51 +412,29 @@ namespace ProductManagement.GUI.Catalogs
                 return Image.FromStream(stream);
             }
         }
-               
-        private void UpdateProduct()
+
+
+        private void LoadOptionsToGrid() 
         {
-            // Assignment.
-            var updateProductDto = new UpdateProductDto();
-            
-            updateProductDto.Id = readProductDto.Id;
-            updateProductDto.ProductName = txtProductName.Text;
-            updateProductDto.QuantityStock = decimal.Parse(txtQuantityStock.Text);
-            updateProductDto.ImageProduct = ConvertImageToByteArray(pbImgen.Image);
+            dgvOptions.Rows.Clear();
 
-            // Implementation Business Logic.
-            var result = productBL.Update(updateProductDto);
-
-            // Evaluation of the result.
-            if (result.Success)
+            foreach (var option in _readProductOptions)
             {
-                MessageBox.Show(result.Message, "Guardar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //Also add Option to grid to show it graphically to the user...
+                dgvOptions.Rows.Add(option.Id,
+                                   option.OptionName,
+                                   option.Status,
+                                   option.CreatedDate,
+                                   option.CreatedUserId,
+                                   option.ProductId);
 
-                // Clean Form.
-                CleanControls();
-                readProductDto = result.Result as ReadProductDto;
-                LoadProduct(readProductDto.Id);
-            }
-            else
-            {
-                MessageBox.Show(result.Message, "Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //Resize grid to adjust to new rows content...
+                dgvOptions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dgvOptions.AutoResizeColumns();
             }
         }
 
-        private void LoadSuppliers()
-        {
-            ListSupplierDto = new List<ReadSupplierDto>();
+        #endregion
 
-            var result = supplierBL.GetListSupplier();
-
-            ListSupplierDto = result.Result as List<ReadSupplierDto>;
-
-            if (result.Success)
-            {               
-                ListSupplierDto.ForEach(x => x.SupplierName = x.Id +" | "+ x.SupplierName);
-                cmbSupplier.DataSource = ListSupplierDto;
-                cmbSupplier.DisplayMember = "SupplierName";
-                cmbSupplier.ValueMember = "Id";
-            }
-        }
     }
 }

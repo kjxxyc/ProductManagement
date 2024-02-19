@@ -14,11 +14,12 @@ namespace ProductManagement.DAL.EntitiesDAO
     public class BaseDAO<TEntity> : IBaseDAO<TEntity> where TEntity : class
     {
         // Definition of the field for context.
-        private readonly ModelProductManagementDbContext _context;
+        public readonly ModelProductManagementDbContext _context;
         
         public BaseDAO()
         {
             _context = new ModelProductManagementDbContext();
+            
         }
 
         /// <summary>
@@ -26,11 +27,17 @@ namespace ProductManagement.DAL.EntitiesDAO
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public int Create(TEntity entity)
+        public int Create(TEntity entity, bool saveChanges = true)
         {
+            var affectedRows = 0;
             _context.Set<TEntity>().Add(entity);
 
-            return _context.SaveChanges();
+            if (saveChanges)
+            {
+                affectedRows = _context.SaveChanges();  
+            }
+
+            return affectedRows;
         }
 
 
@@ -39,11 +46,18 @@ namespace ProductManagement.DAL.EntitiesDAO
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public int Update(TEntity entity)
+        public int Update(TEntity entity, bool saveChanges = true)
         {
+            var affectedRows = 0;
+
             _context.Entry<TEntity>(entity).State = EntityState.Modified;
 
-            return _context.SaveChanges();
+            if (saveChanges)
+            {
+                affectedRows = _context.SaveChanges();
+            }
+
+            return affectedRows;
         }
 
         /// <summary>
@@ -51,11 +65,18 @@ namespace ProductManagement.DAL.EntitiesDAO
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public int Delete(TEntity entity)
+        public int Delete(TEntity entity, bool saveChanges = true)
         {
+            var affectedRows = 0;
+
             _context.Set<TEntity>().Remove(entity);
 
-            return _context.SaveChanges();
+            if (saveChanges)
+            {
+                affectedRows = _context.SaveChanges();
+            }
+
+            return affectedRows;
         }
 
 
@@ -75,7 +96,7 @@ namespace ProductManagement.DAL.EntitiesDAO
         /// <returns></returns>
         public IEnumerable<TEntity> GetAll()
         {
-            return _context.Set<TEntity>().ToList();
+            return _context.Set<TEntity>().AsNoTracking().ToList();
         }
 
 
@@ -86,7 +107,7 @@ namespace ProductManagement.DAL.EntitiesDAO
         /// <returns></returns>
         public IEnumerable<TEntity> GetListWithFilter(Expression<Func<TEntity, bool>> predicate)
         {
-            return _context.Set<TEntity>().Where(predicate).ToList();
+            return _context.Set<TEntity>().Where(predicate).AsNoTracking().ToList();
         }
 
         /// <summary>
@@ -96,7 +117,7 @@ namespace ProductManagement.DAL.EntitiesDAO
         /// <returns></returns>
         public TEntity GetSingleWithFilter(Expression<Func<TEntity, bool>> predicate)
         {
-            return _context.Set<TEntity>().FirstOrDefault(predicate);
+            return _context.Set<TEntity>().AsNoTracking().FirstOrDefault(predicate);
         }
 
         /// <summary>
@@ -119,7 +140,7 @@ namespace ProductManagement.DAL.EntitiesDAO
         /// <returns></returns>
         public bool CheckWithCondition(Expression<Func<TEntity, bool>> predicate, string includeProperties = null)
         {
-            var query = _context.Set<TEntity>().AsQueryable();
+            var query = _context.Set<TEntity>().AsNoTracking().AsQueryable();
 
             if (!string.IsNullOrEmpty(includeProperties))
             {

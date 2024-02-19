@@ -9,8 +9,13 @@ namespace ProductManagement.BL.DTOs
     public class UpdateProductDto
     {
         public int Id { get; set; }
+
         public string ProductName { get; set; }
+        
         public decimal QuantityStock { get; set; }
+        
         public byte[] ImageProduct { get; set; }
+
+        public List<CreateOrUpdateOptionDto> Options { get; set; }
     }
 }

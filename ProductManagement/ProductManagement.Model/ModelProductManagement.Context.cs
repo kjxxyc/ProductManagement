@@ -18,6 +18,7 @@ namespace ProductManagement.Model
         public ModelProductManagementDbContext()
             : base("name=ModelProductManagementDbContext")
         {
+            this.Database.CommandTimeout = 3600;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

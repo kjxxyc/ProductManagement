@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ProductManagement.BL.EntitiesBL
 {
-    public class OptionBL : IBaseBL<CreateOptionDto, UpdateOptionDto>
+    public class OptionBL : IBaseBL<CreateOrUpdateOptionDto, UpdateOptionDto>
     {
         // Fields for mapping and DAO
         private readonly OptionDAO _optionDAO;
@@ -33,7 +33,7 @@ namespace ProductManagement.BL.EntitiesBL
         /// </summary>
         /// <param name="createDto"></param>
         /// <returns></returns>
-        public OperationResultDto Create(CreateOptionDto createDto)
+        public OperationResultDto Create(CreateOrUpdateOptionDto createDto)
         {
             // Definition of variables.
             var result = new OperationResultDto();
@@ -67,7 +67,29 @@ namespace ProductManagement.BL.EntitiesBL
 
         public OperationResultDto FindById(int entityId)
         {
-            throw new NotImplementedException();
+
+            // Definition of variables.
+            var result = new OperationResultDto();
+
+            // Find user by Id.
+            var optionModel = _optionDAO.FindById(entityId);
+            var optionDto = _mapper.Map<ReadOptionDto>(optionModel);
+
+            // Validate if the record exists
+            if (optionModel == null)
+            {
+                result.Message = "No se encontraron registros.";
+                result.Success = false;
+                result.Result = null;
+            }
+            else
+            {
+                result.Message = "Opción encontrada.";
+                result.Success = true;
+                result.Result = optionDto;
+            }
+
+            return result;
         }
 
         public OperationResultDto Update(UpdateOptionDto updateDto)
@@ -81,7 +103,7 @@ namespace ProductManagement.BL.EntitiesBL
         /// </summary>
         /// <param name="createDto"></param>
         /// <returns></returns>
-        public string ValidateBeforeCreate(CreateOptionDto createDto)
+        public string ValidateBeforeCreate(CreateOrUpdateOptionDto createDto)
         {
             // Definition of variables.
             var errorMessage = string.Empty;

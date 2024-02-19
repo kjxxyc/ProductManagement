@@ -8,9 +8,11 @@ using ProductManagement.DAL.EntitiesDAO;
 using ProductManagement.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ProductManagement.BL.EntitiesBL
 {
@@ -24,7 +26,7 @@ namespace ProductManagement.BL.EntitiesBL
         // Initialize constructor
         public ProductBL()
         {
-            _productDAO = new ProductDAO();
+            _productDAO = new ProductDAO();  
             _mapper = AutoMapperConfig.Inicialize();
         }
 
@@ -38,7 +40,6 @@ namespace ProductManagement.BL.EntitiesBL
         {
             // Definition of variables.
             var result = new OperationResultDto();
-            var affectedRows = 0;
             var errorMessage = ValidateBeforeCreate(createDto);
 
             // Validate DTO
@@ -46,8 +47,7 @@ namespace ProductManagement.BL.EntitiesBL
             {
                 // Map DTO to model
                 var productModel = _mapper.Map<Product>(createDto);
-                affectedRows = _productDAO.Create(productModel);
-                affectedRows = _productDAO.Create(productModel);
+                var affectedRows = _productDAO.Create(productModel);
                 var readProduct = _mapper.Map<ReadProductDto>(productModel);
 
                 result.Message = affectedRows > 0 ? "Creado con Exito." : "No se afectaron registros.";
@@ -104,11 +104,45 @@ namespace ProductManagement.BL.EntitiesBL
             // Validate DTO
             if (string.IsNullOrEmpty(errorMessage))
             {
-                // Map DTO to model
+                //Get Database Product Model..
+                var productModel = _productDAO._context.Products.FirstOrDefault(x => x.Id == updateDto.Id); 
 
-                var productModel = _productDAO.FindById(updateDto.Id);
-                _mapper.Map(updateDto, productModel);
-                affectedRows = _productDAO.Update(productModel);
+                //Update Product data...
+                productModel.ProductName = updateDto.ProductName;
+                productModel.QuantityStock = updateDto.QuantityStock;
+                productModel.ImageProduct = updateDto.ImageProduct;
+
+                ////Add or Update Options...
+                foreach (var optionUi in updateDto.Options)
+                {
+                    var option = _productDAO._context.Options.FirstOrDefault(x => x.Id == optionUi.Id);
+
+                    if (option != null)
+                    {
+                        option.OptionName = optionUi.OptionName;
+                        _productDAO._context.Entry(option).State = System.Data.Entity.EntityState.Modified; 
+                    }
+                    else
+                    {
+                        option = _mapper.Map<Option>(optionUi);
+                        option.ProductId = productModel.Id;
+                        _productDAO._context.Options.Add(option);
+                    }
+                }
+
+                var optionsInDb = _productDAO._context.Options.Where(x => x.ProductId == productModel.Id).ToList();
+
+                //Check wich options where remove from list in GUI and remove them from database...
+                foreach (var optionDb in optionsInDb)
+                {
+                    if (!updateDto.Options.Any(x => x.Id == optionDb.Id))
+                    {
+                        _productDAO._context.Options.Remove(optionDb);
+                    }
+                }
+
+                _productDAO._context.Entry(productModel).State = System.Data.Entity.EntityState.Modified;
+                affectedRows = _productDAO._context.SaveChanges();
 
                 var productDto = _mapper.Map<ReadProductDto>(productModel);
 
@@ -139,7 +173,6 @@ namespace ProductManagement.BL.EntitiesBL
 
             // Implementation of validations.
             var validator = new CreateProductValidator();
-
             var validationResult = validator.Validate(createDto);
 
             // Validation DTO.
@@ -177,6 +210,12 @@ namespace ProductManagement.BL.EntitiesBL
             if (!validationResult.IsValid)
             {
                 errorMessage = validationResult.ToString("\n");
+                return errorMessage;
+            }
+
+            if (!_productDAO.CheckWithCondition(x => x.Id == updateDto.Id))
+            {
+                errorMessage = $"El Producto con el identificador especificado no fue encontrado.";
                 return errorMessage;
             }
 

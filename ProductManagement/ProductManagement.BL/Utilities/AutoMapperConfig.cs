@@ -26,8 +26,14 @@ namespace ProductManagement.BL.Utilities
                 cfg.CreateMap<UpdateUserDto, User>();
 
                 // Automatapper configuration for the create OPTION.
-                cfg.CreateMap<CreateOptionDto, Option>().ForMember(dest => dest.CreatedDate,
-                                                                    opt => opt.MapFrom(src => DateTime.Now));
+                cfg.CreateMap<CreateOrUpdateOptionDto, Option>()
+                   .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.Id > 0 ? src.CreatedDate : DateTime.Now))
+                   .ForMember(dest => dest.CreatedUserId, opt => opt.MapFrom(src => src.Id > 0 ? src.Id : 1));
+
+                cfg.CreateMap<Option, ReadOptionDto>().ForMember(dest => dest.ProductName,
+                                                                  opt => opt.MapFrom(src => src.Product.ProductName))
+                                                      .ForMember(dest => dest.CreatedDate,
+                                                                 opt => opt.MapFrom(src => src.CreatedDate.ToString("dd/MM/yyyy - hh:mm tt")));  
 
                 // Automatapper configuration for the create PRODUCT.
                 cfg.CreateMap<CreateProductDto, Product>().ForMember(dest => dest.CreatedDate,

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnCancel = new System.Windows.Forms.Button();
             this.dgvProducts = new System.Windows.Forms.DataGridView();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,9 +45,9 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnOptions = new System.Windows.Forms.Button();
             this.btnCreateProduct = new System.Windows.Forms.Button();
             this.btnUpdateProduct = new System.Windows.Forms.Button();
+            this.btnGetAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -67,6 +68,15 @@
             // 
             this.dgvProducts.AllowUserToAddRows = false;
             this.dgvProducts.AllowUserToDeleteRows = false;
+            this.dgvProducts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvProducts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvProducts.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
@@ -78,12 +88,14 @@
             this.CreatedDate,
             this.ImageProduct});
             this.dgvProducts.Location = new System.Drawing.Point(25, 204);
+            this.dgvProducts.MultiSelect = false;
             this.dgvProducts.Name = "dgvProducts";
             this.dgvProducts.ReadOnly = true;
+            this.dgvProducts.RowHeadersVisible = false;
             this.dgvProducts.RowHeadersWidth = 62;
             this.dgvProducts.RowTemplate.Height = 28;
             this.dgvProducts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProducts.Size = new System.Drawing.Size(1105, 440);
+            this.dgvProducts.Size = new System.Drawing.Size(1887, 776);
             this.dgvProducts.TabIndex = 2;
             // 
             // Id
@@ -93,7 +105,6 @@
             this.Id.Name = "Id";
             this.Id.ReadOnly = true;
             this.Id.Visible = false;
-            this.Id.Width = 150;
             // 
             // NumFile
             // 
@@ -101,7 +112,6 @@
             this.NumFile.MinimumWidth = 8;
             this.NumFile.Name = "NumFile";
             this.NumFile.ReadOnly = true;
-            this.NumFile.Width = 150;
             // 
             // Code
             // 
@@ -109,7 +119,6 @@
             this.Code.MinimumWidth = 8;
             this.Code.Name = "Code";
             this.Code.ReadOnly = true;
-            this.Code.Width = 150;
             // 
             // ProductName
             // 
@@ -117,7 +126,6 @@
             this.ProductName.MinimumWidth = 8;
             this.ProductName.Name = "ProductName";
             this.ProductName.ReadOnly = true;
-            this.ProductName.Width = 150;
             // 
             // QuantityStock
             // 
@@ -125,7 +133,6 @@
             this.QuantityStock.MinimumWidth = 8;
             this.QuantityStock.Name = "QuantityStock";
             this.QuantityStock.ReadOnly = true;
-            this.QuantityStock.Width = 150;
             // 
             // Status
             // 
@@ -133,7 +140,6 @@
             this.Status.MinimumWidth = 8;
             this.Status.Name = "Status";
             this.Status.ReadOnly = true;
-            this.Status.Width = 150;
             // 
             // CreatedDate
             // 
@@ -141,7 +147,6 @@
             this.CreatedDate.MinimumWidth = 8;
             this.CreatedDate.Name = "CreatedDate";
             this.CreatedDate.ReadOnly = true;
-            this.CreatedDate.Width = 150;
             // 
             // ImageProduct
             // 
@@ -150,7 +155,6 @@
             this.ImageProduct.Name = "ImageProduct";
             this.ImageProduct.ReadOnly = true;
             this.ImageProduct.Visible = false;
-            this.ImageProduct.Width = 150;
             // 
             // btnStatusAC
             // 
@@ -196,7 +200,7 @@
             // 
             this.groupBox1.Controls.Add(this.btnStatusIN);
             this.groupBox1.Controls.Add(this.btnStatusAC);
-            this.groupBox1.Location = new System.Drawing.Point(704, 56);
+            this.groupBox1.Location = new System.Drawing.Point(770, 56);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(240, 75);
             this.groupBox1.TabIndex = 7;
@@ -214,19 +218,10 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Filtrar por Nombre";
             // 
-            // btnOptions
-            // 
-            this.btnOptions.Location = new System.Drawing.Point(25, 146);
-            this.btnOptions.Name = "btnOptions";
-            this.btnOptions.Size = new System.Drawing.Size(209, 40);
-            this.btnOptions.TabIndex = 9;
-            this.btnOptions.Text = "Ver Opciones Asociadas";
-            this.btnOptions.UseVisualStyleBackColor = true;
-            // 
             // btnCreateProduct
             // 
             this.btnCreateProduct.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.btnCreateProduct.Location = new System.Drawing.Point(491, 146);
+            this.btnCreateProduct.Location = new System.Drawing.Point(260, 147);
             this.btnCreateProduct.Name = "btnCreateProduct";
             this.btnCreateProduct.Size = new System.Drawing.Size(150, 40);
             this.btnCreateProduct.TabIndex = 11;
@@ -237,7 +232,7 @@
             // btnUpdateProduct
             // 
             this.btnUpdateProduct.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.btnUpdateProduct.Location = new System.Drawing.Point(262, 146);
+            this.btnUpdateProduct.Location = new System.Drawing.Point(31, 147);
             this.btnUpdateProduct.Name = "btnUpdateProduct";
             this.btnUpdateProduct.Size = new System.Drawing.Size(200, 40);
             this.btnUpdateProduct.TabIndex = 12;
@@ -245,15 +240,26 @@
             this.btnUpdateProduct.UseVisualStyleBackColor = false;
             this.btnUpdateProduct.Click += new System.EventHandler(this.btnUpdateProduct_Click);
             // 
+            // btnGetAll
+            // 
+            this.btnGetAll.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.btnGetAll.Location = new System.Drawing.Point(656, 81);
+            this.btnGetAll.Name = "btnGetAll";
+            this.btnGetAll.Size = new System.Drawing.Size(100, 40);
+            this.btnGetAll.TabIndex = 7;
+            this.btnGetAll.Text = "Todos";
+            this.btnGetAll.UseVisualStyleBackColor = false;
+            this.btnGetAll.Click += new System.EventHandler(this.btnGetAll_Click);
+            // 
             // FrmProducts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(1167, 668);
+            this.ClientSize = new System.Drawing.Size(2053, 1031);
+            this.Controls.Add(this.btnGetAll);
             this.Controls.Add(this.btnUpdateProduct);
             this.Controls.Add(this.btnCreateProduct);
-            this.Controls.Add(this.btnOptions);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvProducts);
@@ -280,7 +286,6 @@
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button btnOptions;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn NumFile;
         private System.Windows.Forms.DataGridViewTextBoxColumn Code;
@@ -291,5 +296,6 @@
         private System.Windows.Forms.Button btnCreateProduct;
         private System.Windows.Forms.DataGridViewTextBoxColumn ImageProduct;
         private System.Windows.Forms.Button btnUpdateProduct;
+        private System.Windows.Forms.Button btnGetAll;
     }
 }

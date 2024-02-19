@@ -44,21 +44,21 @@ namespace ProductManagement.GUI.Catalogs
             }
             else
             {
-                MessageBox.Show(result.Message, "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.Message, "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }           
         }
 
         private void LoadGrid(List<ReadProductDto> list)
         {
-            int fila = 0;
+            int num = 0;
             dgvProducts.Rows.Clear();
 
             foreach (var product in list)
             {
-                fila++;
+                num++;
                 dgvProducts.Rows.Add(
                     product.Id,
-                    fila,
+                    num,
                     product.CodeProduct,
                     product.ProductName,
                     product.QuantityStock,
@@ -90,7 +90,7 @@ namespace ProductManagement.GUI.Catalogs
             }
             else
             {
-                MessageBox.Show(result.Message, "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.Message, "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -107,7 +107,7 @@ namespace ProductManagement.GUI.Catalogs
             }
             else
             {
-                MessageBox.Show(result.Message, "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.Message, "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -130,6 +130,23 @@ namespace ProductManagement.GUI.Catalogs
             else
             {
                 MessageBox.Show("Debe haber un registro seleccionado.", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnGetAll_Click(object sender, EventArgs e)
+        {
+            ListProducts = new List<ReadProductDto>();
+
+            var result = productBL.GetListProductsWithFilter(string.Empty, string.Empty);
+
+            if (result.Success)
+            {
+                ListProducts = result.Result as List<ReadProductDto>;
+                LoadGrid(ListProducts);
+            }
+            else
+            {
+                MessageBox.Show(result.Message, "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductManagement.BL.DTOs
 {
-    public class CreateOrUpdateOptionDto
+    public class ReadOptionDto
     {
         public int Id { get; set; }
 
@@ -14,10 +14,14 @@ namespace ProductManagement.BL.DTOs
 
         public string Status { get; set; }
 
-        public System.DateTime CreatedDate { get; set; }
+        public string CreatedDate { get; set; }
 
         public int CreatedUserId { get; set; }
 
+        public string CreatedUserName { get; set; }  
+
         public int ProductId { get; set; }
+
+        public string ProductName { get; set; }
     }
 }

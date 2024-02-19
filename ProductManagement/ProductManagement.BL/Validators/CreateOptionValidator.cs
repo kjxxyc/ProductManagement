@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProductManagement.BL.Validators
 {
-    public class CreateOptionValidator : AbstractValidator<CreateOptionDto>
+    public class CreateOptionValidator : AbstractValidator<CreateOrUpdateOptionDto>
     {
         /// <summary>
         /// Business Logic validations for Option.

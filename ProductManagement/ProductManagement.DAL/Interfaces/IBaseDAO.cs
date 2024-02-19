@@ -54,21 +54,21 @@ namespace ProductManagement.DAL.Interfaces
         /// Create a new record.
         /// </summary>
         /// <param name="entity">Entity to create</param>
-        int Create(TEntity entity);
+        int Create(TEntity entity, bool saveChanges = true);
 
 
         /// <summary>
         /// Update an entity.
         /// </summary>
         /// <param name="entity">Entity to update.</param>
-        int Update(TEntity entity);
+        int Update(TEntity entity, bool saveChanges = true);
 
 
         /// <summary>
         /// Delete an entity.
         /// </summary>
         /// <param name="entity">Entity to delete.</param>
-        int Delete(TEntity entity);
+        int Delete(TEntity entity, bool saveChanges = true);
 
 
         /// <summary>

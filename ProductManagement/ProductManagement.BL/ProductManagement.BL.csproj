@@ -66,11 +66,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOs\CreateOptionDto.cs" />
+    <Compile Include="DTOs\CreateOrUpdateOptionDto.cs" />
     <Compile Include="DTOs\CreateProductDto.cs" />
     <Compile Include="DTOs\CreateSupplierDto.cs" />
     <Compile Include="DTOs\CreateUserDto.cs" />
     <Compile Include="DTOs\OperationResultDto.cs" />
+    <Compile Include="DTOs\ReadOptionDto.cs" />
     <Compile Include="DTOs\ReadProductDto.cs" />
     <Compile Include="DTOs\ReadSupplierDto.cs" />
     <Compile Include="DTOs\ReadUserDto.cs" />

@@ -11,7 +11,7 @@ namespace ProductManagement.BL.DTOs
         
         public CreateProductDto()
         {
-            Options = new List<CreateOptionDto>();
+            Options = new List<CreateOrUpdateOptionDto>();
         }
 
         public string CodeProduct { get; set; }
@@ -30,7 +30,7 @@ namespace ProductManagement.BL.DTOs
 
         public int SupplierId { get; set; }
 
-        public List<CreateOptionDto> Options { get; set; }
+        public List<CreateOrUpdateOptionDto> Options { get; set; }
 
     }
 }
